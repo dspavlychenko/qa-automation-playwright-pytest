@@ -42,9 +42,9 @@ def api():
 
 @pytest.fixture(scope="session")
 def admin_api():
-    """Client with auth token (can update and delete)."""
+    """Client with admin rights (can update and delete). Basic auth, because the demo API loses tokens."""
     client = BookingClient()
-    client.auth(API_USER, API_PASSWORD)
+    client.use_basic_auth(API_USER, API_PASSWORD)
     return client
 
 

@@ -26,6 +26,14 @@ class BookingClient:
     def create_token(self, username: str, password: str) -> requests.Response:
         return self._request("POST", "/auth", json={"username": username, "password": password})
 
+    def use_basic_auth(self, username: str, password: str) -> None:
+        """Stateless auth (Authorization: Basic ...), supported by Restful-Booker for PUT/PATCH/DELETE.
+
+        Tokens from /auth live in the server's memory, so they can vanish after a restart or when
+        requests are served by another instance (the request then fails with 403).
+        """
+        self.session.auth = (username, password)
+
     def auth(self, username: str, password: str) -> str:
         resp = self.create_token(username, password)
         resp.raise_for_status()
