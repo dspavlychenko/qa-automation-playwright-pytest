@@ -13,11 +13,14 @@ class LoginPage(BasePage):
         self.login_button = page.locator("[data-test='login-button']")
         self.error = page.locator("[data-test='error']")
 
+<<<<<<< HEAD
     def open(self):
         super().open()
         expect(self.login_button).to_be_visible()  # page is interactive before the test starts typing
         return self
 
+=======
+>>>>>>> a77e642a0b792e83b3c58612be5bdd1e9dd465f7
     def login(self, user: str, password: str):
         self.username.fill(user)
         self.password.fill(password)
@@ -25,6 +28,9 @@ class LoginPage(BasePage):
 
     def should_show_error(self, text: str):
         expect(self.error).to_contain_text(text)
+<<<<<<< HEAD
 
     def should_mask_password(self):
         expect(self.password).to_have_attribute("type", "password")
+=======
+>>>>>>> a77e642a0b792e83b3c58612be5bdd1e9dd465f7

@@ -2,6 +2,7 @@ name: Tests
 
 on:
   push:
+<<<<<<< HEAD
     branches: [main]
   pull_request:
   workflow_dispatch:
@@ -170,3 +171,33 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+=======
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
+
+      - name: Run tests in parallel
+        run: pytest -n 4
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+>>>>>>> a77e642a0b792e83b3c58612be5bdd1e9dd465f7

@@ -1,4 +1,5 @@
 __pycache__/
+<<<<<<< HEAD
 *.pyc
 .venv/
 .env
@@ -11,4 +12,12 @@ allure-results/
 allure-report/
 test-results/
 junit-*.xml
+=======
+.venv/
+.env
+.pytest_cache/
+allure-results/
+allure-report/
+test-results/
+>>>>>>> a77e642a0b792e83b3c58612be5bdd1e9dd465f7
 .idea/
