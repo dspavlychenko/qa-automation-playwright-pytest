@@ -2,7 +2,6 @@ name: Tests
 
 on:
   push:
-<<<<<<< HEAD
     branches: [main]
   pull_request:
   workflow_dispatch:
@@ -24,9 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -41,9 +40,9 @@ jobs:
     needs: lint
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
@@ -56,7 +55,7 @@ jobs:
 
       - name: Upload Allure results
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: allure-results-api
           path: allure-results
@@ -79,9 +78,9 @@ jobs:
       matrix:
         browser: [chromium, firefox]
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
@@ -90,7 +89,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Cache Playwright browsers
-        uses: actions/cache@v6
+        uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ matrix.browser }}-${{ hashFiles('requirements.txt') }}
@@ -110,7 +109,7 @@ jobs:
 
       - name: Upload traces, screenshots and videos
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-artifacts-${{ matrix.browser }}
           path: test-results
@@ -119,7 +118,7 @@ jobs:
 
       - name: Upload Allure results
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: allure-results-ui-${{ matrix.browser }}
           path: allure-results
@@ -144,14 +143,14 @@ jobs:
       contents: write
     steps:
       - name: Checkout previous reports (history)
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
         continue-on-error: true
 
       - name: Download Allure results
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@v4
         with:
           pattern: allure-results-*
           merge-multiple: true
@@ -171,33 +170,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-=======
-  pull_request:
-  workflow_dispatch:
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          playwright install --with-deps chromium
-
-      - name: Run tests in parallel
-        run: pytest -n 4
-
-      - name: Upload Allure results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results
-          path: allure-results
->>>>>>> a77e642a0b792e83b3c58612be5bdd1e9dd465f7
