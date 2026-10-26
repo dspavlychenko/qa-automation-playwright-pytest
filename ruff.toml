@@ -1,6 +1,0 @@
-line-length = 120
-target-version = "py312"
-extend-exclude = [".venv", "allure-results", "allure-report", "test-results"]
-
-[lint]
-select = ["E", "F", "I", "B", "UP"]
